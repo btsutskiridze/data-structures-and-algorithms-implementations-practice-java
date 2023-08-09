@@ -8,23 +8,19 @@ public class VectorDriver {
     private static final int EXIT_NUMBER = 8;
 
     public static void start() {
-        int opt;
         Vector vector = new Vector();
 
-        do {
+        while (true) {
             printMenu();
+            int opt = getOption();
 
-            opt = getOption();
-
-            if (opt != EXIT_NUMBER) {
-                handleOption(opt, vector);
-                continue;
+            if (opt == EXIT_NUMBER) {
+                System.out.println("Exiting...");
+                break;
             }
 
-            System.out.println("Exiting...");
-            break;
-
-        } while (true);
+            handleOption(opt, vector);
+        }
     }
 
     private static void printMenu() {
