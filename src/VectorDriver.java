@@ -8,7 +8,7 @@ public class VectorDriver {
     private static final int EXIT_NUMBER = 8;
 
     public static void start() {
-        Vector vector = new Vector();
+        Vector<int> vector = new Vector<int>();
 
         while (true) {
             printMenu();
@@ -34,14 +34,14 @@ public class VectorDriver {
         System.out.println(EXIT_NUMBER + ". Exit");
     }
 
-    private static void handleOption(int opt, Vector vector) {
+    private static void handleOption(int opt, Vector<int> vector) {
 
         switch (opt) {
             case 1 -> insertElements(vector);
             case 2 -> insertElement(vector);
             case 3 -> deleteElement(vector);
             case 4 -> deleteElementAt(vector);
-            case 5 -> searchElement(vector);
+                //            case 5 -> searchElement(vector);
             case 6 -> reverseVector(vector);
             case 7 -> vector.display();
             default -> System.out.println("Invalid option. Please enter a valid option.");
@@ -62,7 +62,7 @@ public class VectorDriver {
         return 7;
     }
 
-    private static void insertElements(Vector vector) {
+    private static void insertElements(Vector<int> vector) {
         System.out.println("Enter elements to insert into first vector (type q to stop): ");
         while (scanner.hasNext()) {
             if (scanner.hasNextInt()) {
@@ -82,7 +82,7 @@ public class VectorDriver {
         }
     }
 
-    private static void insertElement(Vector vector) {
+    private static void insertElement(Vector<int> vector) {
         int index, element;
 
         System.out.println("Enter element to insert: ");
@@ -95,7 +95,7 @@ public class VectorDriver {
         vector.insert(element, index);
     }
 
-    private static void deleteElement(Vector vector) {
+    private static void deleteElement(Vector<int> vector) {
         int element;
 
         System.out.println("Enter element to delete: ");
@@ -105,7 +105,7 @@ public class VectorDriver {
         vector.delete(element);
     }
 
-    private static void deleteElementAt(Vector vector) {
+    private static void deleteElementAt(Vector<int> vector) {
         int index;
 
         System.out.println("Enter index to delete at: ");
@@ -115,24 +115,24 @@ public class VectorDriver {
         vector.deleteAt(index);
     }
 
-    private static void searchElement(Vector vector) {
-        int element;
+    //    private static void searchElement(Vector<int> vector) {
+    //        int element;
+    //
+    //        System.out.println("Enter element to search for: ");
+    //        element = scanner.nextInt();
+    //        cleanScanner();
+    //
+    //        int index = vector.search(element);
+    //
+    //        if (index == -1) {
+    //            System.out.println("Element not found.");
+    //            return;
+    //        }
+    //
+    //        System.out.println("Element found at index: " + index);
+    //    }
 
-        System.out.println("Enter element to search for: ");
-        element = scanner.nextInt();
-        cleanScanner();
-
-        int index = vector.search(element);
-
-        if (index == -1) {
-            System.out.println("Element not found.");
-            return;
-        }
-
-        System.out.println("Element found at index: " + index);
-    }
-
-    private static void reverseVector(Vector vector) {
+    private static void reverseVector(Vector<int> vector) {
         vector.reverse();
     }
 

@@ -1,22 +1,22 @@
 package Vector;
 
-interface IVector {
+interface IVector<T extends Comparable<T>> {
 
     void display();
 
-    void push(int value);
+    void push(T value);
 
-    void insert(int value, int index);
+    void insert(T value, int index);
 
-    int pop();
+    T pop();
 
-    void delete(int value);
+    void delete(T value);
 
     void deleteAt(int index);
 
-    Vector union(Vector other);
+    Vector<T> union(Vector<T> other);
 
-    Vector intersection(Vector other);
+    Vector<T> intersection(Vector<T> other);
 
-    Vector difference(Vector other);
+    Vector<T> difference(Vector<T> other);
 }

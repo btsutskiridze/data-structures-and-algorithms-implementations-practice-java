@@ -3,17 +3,18 @@ package Vector;
 import Search.Search;
 import java.util.Arrays;
 
-public class Vector implements IVector {
+@SuppressWarnings("unchecked")
+public class Vector<T extends Comparable<T>> implements IVector<T> {
 
     private static final int INITIAL_CAPACITY = 10;
-    private int[] arr;
+    private T[] arr;
     private int length = 0;
 
     public Vector() {
-        arr = new int[INITIAL_CAPACITY];
+        arr = (T[]) new Comparable[INITIAL_CAPACITY];
     }
 
-    public Vector(int... arr) {
+    public Vector(T... arr) {
         this.arr = arr;
         this.length = arr.length;
     }
@@ -39,7 +40,7 @@ public class Vector implements IVector {
         return sb.toString();
     }
 
-    public void push(int value) {
+    public void push(T value) {
         if (this.length >= arr.length) {
             this.resizeArray();
         }
@@ -47,7 +48,7 @@ public class Vector implements IVector {
         this.arr[this.length++] = value;
     }
 
-    public void insert(int value, int index) {
+    public void insert(T value, int index) {
         if (index < 0 || index > arr.length) {
             throw new ArrayIndexOutOfBoundsException("Invalid index specified");
         }
@@ -63,7 +64,7 @@ public class Vector implements IVector {
         length++;
     }
 
-    public int pop() {
+    public T pop() {
         if (this.length == 0) {
             throw new ArrayIndexOutOfBoundsException("Array is empty");
         }
@@ -71,7 +72,7 @@ public class Vector implements IVector {
         return this.arr[--this.length];
     }
 
-    public void delete(int value) {
+    public void delete(T value) {
         int newIndex = 0;
         for (int i = 0; i < length; i++) {
             if (arr[i] != value) {
@@ -118,20 +119,20 @@ public class Vector implements IVector {
         System.out.println(sb);
     }
 
-    public int[] elements() {
+    public T[] elements() {
         return Arrays.copyOf(arr, length);
     }
 
     public void reverse() {
         for (int i = 0, j = length - 1; i < j; i++, j--) {
-            int temp = arr[i];
+            T temp = arr[i];
             arr[i] = arr[j];
             arr[j] = temp;
         }
     }
 
-    public void setElements(int... arr) {
-        for (int val : arr) {
+    public void setElements(T... arr) {
+        for (T val : arr) {
             this.push(val);
         }
     }
@@ -140,18 +141,18 @@ public class Vector implements IVector {
         return this.length;
     }
 
-    public int search(int value) {
-        return Search.binarySearch(this.elements(), value);
-    }
+    //    public int search(T value) {
+    //        return Search.binarySearch(this.elements(), value);
+    //    }
 
-    public Vector union(Vector other) {
-        int[] arr = new int[this.length + other.length];
+    public Vector<T> union(Vector<T> other) {
+        T[] arr = (T[]) new Comparable[this.length + other.length];
         int i = 0, j = 0, k = 0;
 
         while (i < this.length && j < other.length) {
-            if (this.arr[i] < other.arr[j]) {
+            if (this.arr[i].compareTo(other.arr[j]) < 0) {
                 arr[k++] = this.arr[i++];
-            } else if (this.arr[i] > other.arr[j]) {
+            } else if (this.arr[i].compareTo(other.arr[j]) > 0) {
                 arr[k++] = other.arr[j++];
             } else {
                 arr[k++] = this.arr[i++];
@@ -167,17 +168,17 @@ public class Vector implements IVector {
             arr[k++] = other.arr[j];
         }
 
-        return new Vector(arr);
+        return new Vector<>(arr);
     }
 
-    public Vector intersection(Vector other) {
-        int[] arr = new int[this.length + other.length];
+    public Vector<T> intersection(Vector<T> other) {
+        T[] arr = (T[]) new Comparable[this.length + other.length];
         int i = 0, j = 0, k = 0;
 
         while (i < this.length && j < other.length) {
-            if (this.arr[i] < other.arr[j]) {
+            if (this.arr[i].compareTo(other.arr[j]) < 0) {
                 i++;
-            } else if (this.arr[i] > other.arr[j]) {
+            } else if (this.arr[i].compareTo(other.arr[j]) > 0) {
                 j++;
             } else {
                 arr[k++] = this.arr[i++];
@@ -185,17 +186,17 @@ public class Vector implements IVector {
             }
         }
 
-        return new Vector(Arrays.copyOf(arr, k));
+        return new Vector<>(Arrays.copyOf(arr, k));
     }
 
-    public Vector difference(Vector other) {
-        int[] arr = new int[this.length + other.length];
+    public Vector<T> difference(Vector<T> other) {
+        T[] arr = (T[]) new Comparable[this.length + other.length];
         int i = 0, j = 0, k = 0;
 
         while (i < this.length && j < other.length) {
-            if (this.arr[i] < other.arr[j]) {
+            if (this.arr[i].compareTo(other.arr[j]) < 0) {
                 arr[k++] = this.arr[i++];
-            } else if (this.arr[i] > other.arr[j]) {
+            } else if (this.arr[i].compareTo(other.arr[j]) > 0) {
                 j++;
             } else {
                 i++;
@@ -206,7 +207,7 @@ public class Vector implements IVector {
             arr[k++] = this.arr[i];
         }
 
-        return new Vector(Arrays.copyOf(arr, k));
+        return new Vector<>(Arrays.copyOf(arr, k));
     }
 
     private void resizeArray() {
