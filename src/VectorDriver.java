@@ -8,7 +8,7 @@ public class VectorDriver {
     private static final int EXIT_NUMBER = 8;
 
     public static void start() {
-        Vector<int> vector = new Vector<int>();
+        Vector<Integer> vector = new Vector<Integer>();
 
         while (true) {
             printMenu();
@@ -34,7 +34,7 @@ public class VectorDriver {
         System.out.println(EXIT_NUMBER + ". Exit");
     }
 
-    private static void handleOption(int opt, Vector<int> vector) {
+    private static void handleOption(int opt, Vector<Integer> vector) {
 
         switch (opt) {
             case 1 -> insertElements(vector);
@@ -62,7 +62,7 @@ public class VectorDriver {
         return 7;
     }
 
-    private static void insertElements(Vector<int> vector) {
+    private static void insertElements(Vector<Integer> vector) {
         System.out.println("Enter elements to insert into first vector (type q to stop): ");
         while (scanner.hasNext()) {
             if (scanner.hasNextInt()) {
@@ -82,7 +82,7 @@ public class VectorDriver {
         }
     }
 
-    private static void insertElement(Vector<int> vector) {
+    private static void insertElement(Vector<Integer> vector) {
         int index, element;
 
         System.out.println("Enter element to insert: ");
@@ -95,7 +95,7 @@ public class VectorDriver {
         vector.insert(element, index);
     }
 
-    private static void deleteElement(Vector<int> vector) {
+    private static void deleteElement(Vector<Integer> vector) {
         int element;
 
         System.out.println("Enter element to delete: ");
@@ -105,7 +105,7 @@ public class VectorDriver {
         vector.delete(element);
     }
 
-    private static void deleteElementAt(Vector<int> vector) {
+    private static void deleteElementAt(Vector<Integer> vector) {
         int index;
 
         System.out.println("Enter index to delete at: ");
@@ -115,7 +115,7 @@ public class VectorDriver {
         vector.deleteAt(index);
     }
 
-    //    private static void searchElement(Vector<int> vector) {
+    //    private static void searchElement(Vector<Integer> vector) {
     //        int element;
     //
     //        System.out.println("Enter element to search for: ");
@@ -132,7 +132,7 @@ public class VectorDriver {
     //        System.out.println("Element found at index: " + index);
     //    }
 
-    private static void reverseVector(Vector<int> vector) {
+    private static void reverseVector(Vector<Integer> vector) {
         vector.reverse();
     }
 
