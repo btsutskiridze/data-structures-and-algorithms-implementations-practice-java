@@ -7,6 +7,16 @@ import java.util.HashSet;
 
 public class ArrayHelper {
 
+    public static void main(String[] args) {
+        int[] arr = {
+            1, 2, 3, 5, 5, 5, 5, 6, 7, 8, 9, 10,
+        };
+        //        System.out.println(findDuplicatesWithHashMap(arr));
+        //        System.out.println(findDuplicatesWithHashSet(arr));
+        //        System.out.println(findMissings(arr));
+        System.out.println(findPairsWithSumInSortedArray(arr, 10));
+    }
+
     public static ArrayList<Integer> findMissings(int[] arr) {
         int maxNumber = max(arr);
         BitSet bitset = new BitSet(maxNumber);
@@ -65,5 +75,56 @@ public class ArrayHelper {
         }
 
         return duplicates;
+    }
+
+    public static ArrayList<Pair<Integer, Integer>> findPairsWithSumSlow(int[] arr, int sum) {
+
+        ArrayList<Pair<Integer, Integer>> pairs = new ArrayList<>();
+
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = i; j < arr.length; j++) {
+                if ((arr[i] + arr[j] == sum) && !pairs.contains(new Pair<>(arr[i], arr[j]))) {
+                    pairs.add(new Pair<>(arr[i], arr[j]));
+                }
+            }
+        }
+
+        return pairs;
+    }
+
+    public static ArrayList<Pair<Integer, Integer>> findPairsWithSumFast(int[] arr, int sum) {
+        HashSet<Integer> seen = new HashSet<>();
+        ArrayList<Pair<Integer, Integer>> pairs = new ArrayList<>();
+
+        for (int it : arr) {
+            if (seen.contains(sum - it) && !pairs.contains(new Pair<>(it, sum - it))) {
+                pairs.add(new Pair<>(it, sum - it));
+            }
+
+            seen.add(it);
+        }
+
+        return pairs;
+    }
+
+    public static ArrayList<Pair<Integer, Integer>> findPairsWithSumInSortedArray(
+            int[] arr, int sum) {
+
+        int i = 0, j = arr.length - 1;
+        ArrayList<Pair<Integer, Integer>> pairs = new ArrayList<>();
+
+        while (i < j) {
+            if (arr[i] + arr[j] == sum && !pairs.contains(new Pair<>(arr[i], arr[j]))) {
+                pairs.add(new Pair<>(arr[i], arr[j]));
+                i++;
+                j--;
+            } else if (arr[i] + arr[j] > sum) {
+                j--;
+            } else {
+                i++;
+            }
+        }
+
+        return pairs;
     }
 }
