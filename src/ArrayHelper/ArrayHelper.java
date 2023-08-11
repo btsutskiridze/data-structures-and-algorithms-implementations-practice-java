@@ -11,10 +11,11 @@ public class ArrayHelper {
         int[] arr = {
             1, 2, 3, 5, 5, 5, 5, 6, 7, 8, 9, 10,
         };
-        //        System.out.println(findDuplicatesWithHashMap(arr));
-        //        System.out.println(findDuplicatesWithHashSet(arr));
-        //        System.out.println(findMissings(arr));
+        System.out.println(findDuplicatesWithHashMap(arr));
+        System.out.println(findDuplicatesWithHashSet(arr));
+        System.out.println(findMissings(arr));
         System.out.println(findPairsWithSumInSortedArray(arr, 10));
+        System.out.println(findMinAndMax(arr));
     }
 
     public static ArrayList<Integer> findMissings(int[] arr) {
@@ -126,5 +127,19 @@ public class ArrayHelper {
         }
 
         return pairs;
+    }
+
+    public static Pair<Integer, Integer> findMinAndMax(int[] arr) {
+        Pair<Integer, Integer> minMax = new Pair<>(arr[0], arr[0]);
+
+        for (int num : arr) {
+            if (minMax.first() > num) {
+                minMax.setFirst(num);
+            } else if (minMax.second() < num) {
+                minMax.setSecond(num);
+            }
+        }
+
+        return minMax;
     }
 }
