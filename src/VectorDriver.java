@@ -7,6 +7,10 @@ public class VectorDriver {
 
     private static final int EXIT_NUMBER = 8;
 
+    public static void main(String[] args) {
+        VectorDriver.start();
+    }
+
     public static void start() {
         Vector<Integer> vector = new Vector<Integer>();
 

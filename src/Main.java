@@ -1,8 +1,5 @@
-import java.util.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Random;
 
-public class Main {
-
-    public static void main(String[] args) {
-        //        VectorDriver.start();
-    }
-}
+public class Main {}
