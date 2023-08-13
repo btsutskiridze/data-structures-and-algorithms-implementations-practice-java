@@ -1,5 +1,5 @@
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Random;
+import static RandomStuff.Rd.findDuplicates;
 
-public class Main {}
+public class Main {
+    public static void main(String[] args) {}
+}
