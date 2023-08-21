@@ -1,8 +1,8 @@
 package matrix;
 
 
-import matrix.accessstrategy.LowerTriangularColumnMajorAccess;
-import matrix.accessstrategy.interfaces.LowerTriangularAccessStrategy;
+import matrix.accessstrategy.lowertriangular.LowerTriangularColumnMajorAccess;
+import matrix.accessstrategy.lowertriangular.LowerTriangularAccessStrategy;
 
 public class LowerTriangularMatrix implements IMatrix {
 

@@ -1,6 +1,6 @@
-package matrix.accessstrategy;
+package matrix.accessstrategy.uppertriangular;
 
-import matrix.accessstrategy.interfaces.UpperTriangularAccessStrategy;
+import matrix.accessstrategy.uppertriangular.UpperTriangularAccessStrategy;
 
 public class UpperTriangularRowMajorAccess implements UpperTriangularAccessStrategy {
 

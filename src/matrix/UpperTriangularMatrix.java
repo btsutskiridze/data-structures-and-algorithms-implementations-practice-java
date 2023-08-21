@@ -1,8 +1,7 @@
 package matrix;
 
-import matrix.accessstrategy.UpperTriangularColumnMajorAccess;
-import matrix.accessstrategy.UpperTriangularRowMajorAccess;
-import matrix.accessstrategy.interfaces.UpperTriangularAccessStrategy;
+import matrix.accessstrategy.uppertriangular.UpperTriangularRowMajorAccess;
+import matrix.accessstrategy.uppertriangular.UpperTriangularAccessStrategy;
 
 public class UpperTriangularMatrix implements IMatrix {
 

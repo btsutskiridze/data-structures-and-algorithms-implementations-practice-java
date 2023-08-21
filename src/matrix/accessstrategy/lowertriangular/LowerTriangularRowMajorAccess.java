@@ -1,6 +1,6 @@
-package matrix.accessstrategy;
+package matrix.accessstrategy.lowertriangular;
 
-import matrix.accessstrategy.interfaces.LowerTriangularAccessStrategy;
+import matrix.accessstrategy.lowertriangular.LowerTriangularAccessStrategy;
 
 public class LowerTriangularRowMajorAccess implements LowerTriangularAccessStrategy {
     @Override

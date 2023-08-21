@@ -1,7 +1,7 @@
-package matrix.accessstrategy;
+package matrix.accessstrategy.lowertriangular;
 
 
-import matrix.accessstrategy.interfaces.LowerTriangularAccessStrategy;
+import matrix.accessstrategy.lowertriangular.LowerTriangularAccessStrategy;
 
 public class LowerTriangularColumnMajorAccess implements LowerTriangularAccessStrategy {
 
