@@ -37,6 +37,10 @@ public class LowerTriangularMatrix {
         this.A[this.accessStrategy.getIndex(x, y, this.dimension)] = value;
     }
 
+    public int get(int x, int y) {
+        return this.A[this.accessStrategy.getIndex(x, y, this.dimension)];
+    }
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
