@@ -1,7 +1,9 @@
 package matrix.accessstrategy;
 
 
-public class ColumnMajorAccess implements AccessStrategy {
+import matrix.accessstrategy.interfaces.LowerTriangularAccessStrategy;
+
+public class LowerTriangularColumnMajorAccess implements LowerTriangularAccessStrategy {
 
     @Override
     public int getIndex(int x, int y, int dimension) {

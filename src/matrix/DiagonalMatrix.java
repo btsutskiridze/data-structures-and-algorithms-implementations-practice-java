@@ -1,17 +1,17 @@
 package matrix;
 
-public class DiagonalMatrix {
+public class DiagonalMatrix implements IMatrix {
 
     private final int[] A;
-    private final int n;
+    private final int dimension;
 
     public DiagonalMatrix(int n) {
-        this.n = n;
+        this.dimension = n;
         this.A = new int[n];
     }
 
     public void set(int x, int y, int value) {
-        if (x < 1 || x > n || y < 1 || y > n) {
+        if (x < 1 || x > dimension || y < 1 || y > dimension) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         if (x == y) {
@@ -20,7 +20,7 @@ public class DiagonalMatrix {
     }
 
     public int get(int x, int y) {
-        if (x < 1 || x > n || y < 1 || y > n) {
+        if (x < 1 || x > dimension || y < 1 || y > dimension) {
             throw new IndexOutOfBoundsException("Index out of bounds");
         }
         if (x == y) {
@@ -32,8 +32,8 @@ public class DiagonalMatrix {
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        for (int i = 1; i <= this.n; i++) {
-            for (int j = 1; j <= this.n; j++) {
+        for (int i = 1; i <= this.dimension; i++) {
+            for (int j = 1; j <= this.dimension; j++) {
                 if (i == j) {
                     s.append(this.A[i - 1]);
                     s.append(" ");
