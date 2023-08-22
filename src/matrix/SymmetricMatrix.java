@@ -1,13 +1,14 @@
 package matrix;
 
-
-import matrix.accessstrategy.lowertriangular.LowerTriangularColumnMajorAccess;
 import matrix.accessstrategy.lowertriangular.LowerTriangularAccessStrategy;
+import matrix.accessstrategy.lowertriangular.LowerTriangularColumnMajorAccess;
 
-public class LowerTriangularMatrix implements IMatrix {
+import java.util.Arrays;
+
+public class SymmetricMatrix extends LowerTriangularMatrix {
 
     public static void main(String[] args) {
-        LowerTriangularMatrix m = new LowerTriangularMatrix(4, new LowerTriangularColumnMajorAccess());
+        SymmetricMatrix m = new SymmetricMatrix(4, new LowerTriangularColumnMajorAccess());
         m.set(1, 1, 1);
         m.set(2, 2, 2);
         m.set(3, 3, 3);
@@ -22,23 +23,26 @@ public class LowerTriangularMatrix implements IMatrix {
 
     }
 
-    protected final LowerTriangularAccessStrategy accessStrategy;
-    protected final int[] A;
 
-    protected final int dimension;
-
-    public LowerTriangularMatrix(int dimension, LowerTriangularAccessStrategy accessStrategy) {
-        this.accessStrategy = accessStrategy;
-        A = new int[(dimension * (dimension + 1)) / 2];
-        this.dimension = dimension;
+    public SymmetricMatrix(int dimension, LowerTriangularAccessStrategy accessStrategy) {
+        super(dimension, accessStrategy);
     }
 
     public void set(int x, int y, int value) {
-        this.A[this.accessStrategy.getIndex(x, y, this.dimension)] = value;
+        if (x < y) {
+            super.set(y, x, value);
+        } else {
+            super.set(x, y, value);
+        }
     }
 
+    @Override
     public int get(int x, int y) {
-        return this.A[this.accessStrategy.getIndex(x, y, this.dimension)];
+        if (x < y) {
+            return super.get(y, x);
+        } else {
+            return super.get(x, y);
+        }
     }
 
     @Override
@@ -51,7 +55,8 @@ public class LowerTriangularMatrix implements IMatrix {
                     s.append(this.get(i, j));
                     s.append(" ");
                 } else {
-                    s.append("0 ");
+                    s.append(this.get(j, i));
+                    s.append(" ");
                 }
             }
             s.append("\n");
@@ -59,5 +64,4 @@ public class LowerTriangularMatrix implements IMatrix {
 
         return s.toString();
     }
-
 }

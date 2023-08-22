@@ -59,7 +59,7 @@ public class UpperTriangularMatrix implements IMatrix {
         for (int i = 1; i <= this.dimension; i++) {
             for (int j = 1; j <= this.dimension; j++) {
                 if (i <= j) {
-                    s.append(this.A[this.accessStrategy.getIndex(i, j, this.dimension)]);
+                    s.append(this.get(i, j));
                     s.append(" ");
                 } else {
                     s.append("0 ");
