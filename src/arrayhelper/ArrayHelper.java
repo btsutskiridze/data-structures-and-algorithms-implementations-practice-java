@@ -1,4 +1,4 @@
-package ArrayHelper;
+package arrayhelper;
 
 import java.util.ArrayList;
 import java.util.BitSet;
@@ -9,7 +9,7 @@ public class ArrayHelper {
 
     public static void main(String[] args) {
         int[] arr = {
-            1, 2, 3, 5, 5, 5, 5, 6, 7, 8, 9, 10,
+                1, 2, 3, 5, 5, 5, 5, 6, 7, 8, 9, 10,
         };
         System.out.println(findDuplicatesWithHashMap(arr));
         System.out.println(findDuplicatesWithHashSet(arr));

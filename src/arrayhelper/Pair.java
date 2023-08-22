@@ -1,4 +1,4 @@
-package ArrayHelper;
+package arrayhelper;
 
 public class Pair<K, V> {
 
