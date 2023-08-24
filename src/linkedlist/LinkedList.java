@@ -7,11 +7,12 @@ public class LinkedList<T> {
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
         list.add(1);
+        list.add(99);
         list.add(2);
-        list.add(3);
-        list.add(4);
+        list.add(200);
 
         System.out.println(list);
+        System.out.println(list.max());
     }
 
 
@@ -38,6 +39,46 @@ public class LinkedList<T> {
 
         temp.next = new Node<T>(data);
         this.size++;
+    }
+
+    public int size() {
+        return this.size;
+    }
+
+    public int sum() {
+        if (!(this.head.data instanceof Integer)) {
+            throw new RuntimeException("Unsupported type for sum() method.");
+        }
+
+        int sum = 0;
+        Node<T> temp = this.head;
+
+        while (temp != null) {
+            sum += (int) temp.data;
+            temp = temp.next;
+        }
+
+        return sum;
+    }
+
+    public int max() {
+        if (this.size == 0) throw new RuntimeException("Empty list.");
+
+        if (!(this.head.data instanceof Integer)) {
+            throw new RuntimeException("Unsupported type for sum() method.");
+        }
+
+        int max = Integer.MIN_VALUE;
+        Node<T> temp = this.head;
+
+        while (temp != null) {
+            if ((int) temp.data > max) {
+                max = (int) temp.data;
+            }
+            temp = temp.next;
+        }
+
+        return max;
     }
 
 
