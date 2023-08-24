@@ -6,13 +6,13 @@ public class LinkedList<T> {
 
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
-        list.add(1);
-        list.add(99);
-        list.add(2);
-        list.add(200);
+        list.insert(0, 8);
+        list.insert(1, 3);
+        list.insert(2, 6);
+        list.insert(0, 5);
+        list.insert(3, 9);
 
         System.out.println(list);
-        System.out.println(list.max());
     }
 
 
@@ -81,6 +81,48 @@ public class LinkedList<T> {
         return max;
     }
 
+    public Node<T> search(T value) {
+        if (this.size == 0) throw new RuntimeException("Empty list.");
+
+        Node<T> pointer = this.head;
+        Node<T> prev = null;
+
+        while (pointer != null) {
+            if (value == pointer.data) {
+                if (prev != null) {
+                    prev.next = pointer.next;
+                    pointer.next = this.head;
+                    this.head = pointer;
+                }
+                return pointer;
+            }
+            prev = pointer;
+            pointer = pointer.next;
+        }
+
+        return null;
+    }
+
+    public void insert(int position, T value) {
+        if (position < 0 || position > this.size) {
+            throw new RuntimeException("Invalid position");
+        }
+
+        if (position == 0) {
+            this.head = new Node<>(value, this.head);
+            this.size++;
+            return;
+        }
+
+        Node<T> pointer = this.head;
+
+        for (int i = 0; i < position - 1; i++) {
+            pointer = pointer.next;
+        }
+
+        pointer.next = new Node<>(value, pointer.next);
+        this.size++;
+    }
 
     @Override
     public String toString() {
