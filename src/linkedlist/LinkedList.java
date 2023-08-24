@@ -6,38 +6,39 @@ public class LinkedList<T> {
 
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
-        list.insert(0, 8);
-        list.insert(1, 3);
-        list.insert(2, 6);
-        list.insert(0, 5);
-        list.insert(3, 9);
+        list.add(10);
+        list.add(20);
+        list.add(30);
+        list.add(40);
 
+
+        System.out.println(list.delete(30));
         System.out.println(list);
     }
 
 
     Node<T> head;
+    Node<T> tail;
     int size;
 
     public LinkedList() {
         this.head = null;
+        this.tail = null;
         this.size = 0;
     }
 
     public void add(T data) {
+        Node<T> newNode = new Node<>(data);
+
         if (this.head == null) {
-            this.head = new Node<T>(data);
+            this.head = newNode;
+            this.tail = newNode;
             this.size++;
             return;
         }
 
-        Node<T> temp = this.head;
-
-        while (temp.next != null) {
-            temp = temp.next;
-        }
-
-        temp.next = new Node<T>(data);
+        this.tail.next = newNode;
+        this.tail = newNode;
         this.size++;
     }
 
@@ -110,6 +111,14 @@ public class LinkedList<T> {
 
         if (position == 0) {
             this.head = new Node<>(value, this.head);
+            this.tail = this.head;
+            this.size++;
+            return;
+        }
+
+        if (position == this.size) {
+            this.tail.next = new Node<>(value);
+            this.tail = this.tail.next;
             this.size++;
             return;
         }
@@ -122,6 +131,67 @@ public class LinkedList<T> {
 
         pointer.next = new Node<>(value, pointer.next);
         this.size++;
+    }
+
+    public void insertSorted(T value) {
+        if (!(value instanceof Integer)) {
+            throw new RuntimeException("Unsupported type for insertSorted() method.");
+        }
+
+        if (this.size == 0) {
+            this.head = new Node<>(value);
+            this.tail = this.head;
+            this.size++;
+            return;
+        }
+
+        if ((int) value < (int) this.head.data) {
+            this.head = new Node<>(value, this.head);
+            this.size++;
+            return;
+        }
+
+        if ((int) value > (int) this.tail.data) {
+            this.tail.next = new Node<>(value);
+            this.tail = this.tail.next;
+            this.size++;
+            return;
+        }
+
+        Node<T> pointer = this.head;
+
+        while (pointer.next != null) {
+            if ((int) value < (int) pointer.next.data) {
+                pointer.next = new Node<>(value, pointer.next);
+                this.size++;
+                return;
+            }
+            pointer = pointer.next;
+        }
+    }
+
+
+    public Node<T> delete(T value) {
+        if (this.size == 0) throw new RuntimeException("Empty list.");
+
+        Node<T> pointer = this.head;
+        Node<T> prev = null;
+
+        while (pointer != null) {
+            if (value == pointer.data) {
+                if (prev != null) {
+                    prev.next = pointer.next;
+                } else {
+                    this.head = pointer.next;
+                }
+                this.size--;
+                return pointer;
+            }
+            prev = pointer;
+            pointer = pointer.next;
+        }
+
+        return null;
     }
 
     @Override
