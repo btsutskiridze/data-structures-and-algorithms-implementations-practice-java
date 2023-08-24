@@ -7,13 +7,13 @@ public class LinkedList<T> {
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
         list.add(10);
+        list.add(10);
         list.add(20);
         list.add(30);
         list.add(40);
 
 
-        System.out.println(list.delete(30));
-        System.out.println(list);
+        System.out.println(list.isSorted());
     }
 
 
@@ -168,6 +168,23 @@ public class LinkedList<T> {
             }
             pointer = pointer.next;
         }
+    }
+
+    public boolean isSorted() {
+        if (this.size == 0) throw new RuntimeException("Empty list.");
+
+        if (!(this.head.data instanceof Integer)) throw new RuntimeException("Unsupported type for isSorted() method.");
+
+        Node<T> p = this.head;
+
+        while (p.next != null) {
+            if ((int) p.data > (int) p.next.data)
+                return false;
+
+            p = p.next;
+        }
+
+        return true;
     }
 
 
