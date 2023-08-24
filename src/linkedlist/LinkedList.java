@@ -2,18 +2,21 @@ package linkedlist;
 
 import linkedlist.node.Node;
 
+import java.util.HashSet;
+
 public class LinkedList<T> {
 
     public static void main(String[] args) {
         LinkedList<Integer> list = new LinkedList<>();
         list.add(10);
-        list.add(10);
         list.add(20);
         list.add(30);
+        list.add(20);
         list.add(40);
+        list.add(10);
 
-
-        System.out.println(list.isSorted());
+        list.removeDuplicates();
+        System.out.println(list);
     }
 
 
@@ -209,6 +212,49 @@ public class LinkedList<T> {
         }
 
         return null;
+    }
+
+    public void removeDuplicates() {
+        HashSet<T> set = new HashSet<>();
+        Node<T> pointer = this.head;
+        Node<T> prev = null;
+
+        while (pointer != null) {
+            if (set.contains(pointer.data)) {
+                prev.next = pointer.next;
+            } else {
+                prev = pointer;
+                set.add(pointer.data);
+            }
+            pointer = pointer.next;
+        }
+
+    }
+
+    public void reverse() {
+        if (size == 0) throw new RuntimeException("Empty list.");
+
+        Node<T> previousNode;
+        Node<T> currentNode = null;
+        Node<T> nextNode = this.head;
+
+        while (nextNode != null) {
+            previousNode = currentNode;
+            currentNode = nextNode;
+            nextNode = nextNode.next;
+            currentNode.next = previousNode;
+        }
+
+        this.head = currentNode;
+    }
+
+    public void reverseRecursively(Node<T> previousNode, Node<T> currentNode) {
+        if (currentNode == null) {
+            return;
+        }
+
+        reverseRecursively(currentNode, currentNode.next);
+        currentNode.next = previousNode;
     }
 
     @Override
