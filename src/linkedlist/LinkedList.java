@@ -7,22 +7,108 @@ import java.util.HashSet;
 public class LinkedList<T> {
 
     public static void main(String[] args) {
-        LinkedList<Integer> list = new LinkedList<>();
-        list.add(10);
-        list.add(20);
-        list.add(30);
-        list.add(20);
-        list.add(40);
-        list.add(10);
+        LinkedList<Integer> l1 = new LinkedList<>();
+        LinkedList<Integer> l2 = new LinkedList<>();
+        l2.add(5);
+        l1.add(10);
+        l2.add(15);
+        l1.add(20);
+        l2.add(25);
+        l1.add(30);
+        l2.add(35);
+        l1.add(40);
+        l2.add(45);
 
-        list.removeDuplicates();
-        System.out.println(list);
+        System.out.println(l1);
+        System.out.println(l2);
+        l1.merge(l2);
+        System.out.println(l1);
+        System.out.println(l1.isLoop());
     }
 
 
-    Node<T> head;
-    Node<T> tail;
-    int size;
+    public static LinkedList<Integer> mergeLists(LinkedList<Integer> a, LinkedList<Integer> b) {
+        Node<Integer> aPointer = a.head;
+        Node<Integer> bPointer = b.head;
+        LinkedList<Integer> newList = new LinkedList<>();
+
+
+        while (aPointer != null && bPointer != null) {
+            if (aPointer.data == bPointer.data) {
+                newList.add(aPointer.data);
+                aPointer = aPointer.next;
+                bPointer = bPointer.next;
+            } else if (aPointer.data < bPointer.data) {
+                newList.add(aPointer.data);
+                aPointer = aPointer.next;
+            } else {
+                newList.add(bPointer.data);
+                bPointer = bPointer.next;
+            }
+        }
+
+        while (aPointer != null) {
+            newList.add(aPointer.data);
+            aPointer = aPointer.next;
+        }
+
+        while (bPointer != null) {
+            newList.add(bPointer.data);
+            bPointer = bPointer.next;
+        }
+
+        return newList;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void merge(LinkedList<Integer> o) {
+        if (this.head != null && !(this.head.data instanceof Integer)) {
+            throw new RuntimeException("Unsupported type for merge() method.");
+        }
+
+        Node<Integer> aPointer = (Node<Integer>) this.head;
+        Node<Integer> bPointer = o.head;
+        Node<Integer> newHead;
+        Node<Integer> newTail;
+
+        if (aPointer.data < bPointer.data) {
+            newHead = aPointer;
+            newTail = aPointer;
+            aPointer = aPointer.next;
+        } else {
+            newHead = bPointer;
+            newTail = bPointer;
+            bPointer = bPointer.next;
+        }
+
+        while (aPointer != null && bPointer != null) {
+            if (aPointer.data < bPointer.data) {
+                newTail.next = aPointer;
+                aPointer = aPointer.next;
+            } else {
+                newTail.next = bPointer;
+                bPointer = bPointer.next;
+            }
+            newTail = newTail.next;
+        }
+
+
+        if (aPointer != null) {
+            newTail.next = aPointer;
+        }
+
+        if (bPointer != null) {
+            newTail.next = bPointer;
+        }
+
+        this.head = (Node<T>) newHead;
+        this.tail = (Node<T>) newTail;
+        this.size += o.size;
+    }
+
+    private Node<T> head;
+    private Node<T> tail;
+    private int size;
 
     public LinkedList() {
         this.head = null;
@@ -190,6 +276,22 @@ public class LinkedList<T> {
         return true;
     }
 
+    public boolean isLoop() {
+        if (this.size == 0) throw new RuntimeException("Empty list.");
+
+        Node<T> slowPointer = this.head;
+        Node<T> fastPointer = this.head;
+
+        while (fastPointer != null && fastPointer.next != null) {
+            slowPointer = slowPointer.next;
+            fastPointer = fastPointer.next.next;
+
+            if (slowPointer == fastPointer)
+                return true;
+        }
+
+        return false;
+    }
 
     public Node<T> delete(T value) {
         if (this.size == 0) throw new RuntimeException("Empty list.");
