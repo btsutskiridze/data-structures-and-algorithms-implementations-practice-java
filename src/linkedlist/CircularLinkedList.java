@@ -19,7 +19,6 @@ class Main {
     }
 }
 
-
 public class CircularLinkedList {
     Node<Integer> head;
     int size;
