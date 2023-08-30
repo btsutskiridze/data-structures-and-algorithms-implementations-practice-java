@@ -5,114 +5,168 @@ import java.util.Arrays;
 public class Polynomial {
 
     public static void main(String[] args) {
-        Polynomial p = new Polynomial(3);
-        p.setTerm(1, 2, 2);
-        p.setTerm(2, 4, 1);
-        p.setTerm(3, 5, 0);
+        Polynomial p = new Polynomial();
+        p.setTerm(2, 2);
+        p.setTerm(4, 1);
+        p.setTerm(5, 0);
+        p.setTerm(6, 5);
 
-        Polynomial p1 = new Polynomial(7);
-        p1.setTerm(1, 3, 3);
-        p1.setTerm(2, 5, 2);
-        p1.setTerm(3, 6, 1);
-        p1.setTerm(4, 7, 0);
-        p1.setTerm(5, 8, 0);
-        p1.setTerm(6, 9, 0);
-        p1.setTerm(7, 10, 0);
-
+        Polynomial q = new Polynomial();
+        q.setTerm(3, 3);
+        q.setTerm(5, 2);
+        q.setTerm(6, 1);
+        q.setTerm(7, 0);
+        q.setTerm(8, 0);
+        q.setTerm(9, 0);
+        q.setTerm(10, 0);
 
         System.out.println("P(x) = " + p);
-        System.out.println("P1(x) = " + p1);
-        System.out.println("P(x) + P1(x) = " + p.add(p1));
-
+        System.out.println("Q(x) = " + q);
+        p.add(q);
+        System.out.println("P(x) + Q(x) = " + p);
+//
     }
 
-    private final int numberOfTerms;
+    private TermNode termsHead;
 
-    private int count = 0;
-
-    private final Term[] terms;
-
-    public Polynomial(int numberOfTerms) {
-        this.numberOfTerms = numberOfTerms;
-        this.terms = new Term[numberOfTerms];
+    public Polynomial() {
+        this.termsHead = null;
     }
 
-    private Polynomial(int numberOfTerms, Term[] terms) {
-        this.numberOfTerms = numberOfTerms;
-        this.count = numberOfTerms;
-        this.terms = terms;
+    public void setTerm(int coef, int exp) {
+        this.validateCoef(coef);
+        this.validateExp(exp);
 
-    }
-
-    public void setTerm(int position, int coef, int exp) {
-        if (position <= 0 && position > this.numberOfTerms) {
-            throw new IllegalArgumentException("Invalid position");
+        if (this.termsHead == null || this.termsHead.exp < exp) {
+            this.termsHead = new TermNode(coef, exp, this.termsHead);
+            return;
         }
 
-        if (coef == 0) {
-            throw new IllegalArgumentException("Coefficient cannot be 0");
+        TermNode current = this.termsHead;
+        TermNode prev = null;
+
+        while (current != null && current.exp > exp) {
+            prev = current;
+            current = current.next;
         }
 
-        this.terms[position - 1] = new Term(coef, exp);
-        this.count++;
+        if (current == null || current.exp < exp) {
+            prev.next = new TermNode(coef, exp, current);
+            return;
+        }
+
+        current.coef += coef;
     }
 
     public int evaluate(int x) {
+        TermNode ptr = this.termsHead;
+
         int result = 0;
 
-        for (int i = 0; i < numberOfTerms; i++) {
-            result += terms[i].evaluate(x);
+        while (ptr != null) {
+            result += ptr.evaluate(x);
+            ptr = ptr.next;
         }
 
         return result;
     }
 
-    public Polynomial add(Polynomial oth) {
-        Term[] result = new Term[this.numberOfTerms + oth.numberOfTerms];
 
-        int i = 0, j = 0, k = 0;
+    private void validateCoef(int coef) throws IllegalArgumentException {
+        if (coef == 0) {
+            throw new IllegalArgumentException("Coefficient cannot be 0");
+        }
+    }
 
-        while (i < this.numberOfTerms && j < oth.numberOfTerms) {
-            if (this.terms[i].exp > oth.terms[j].exp) {
-                result[k++] = this.terms[i++];
-            } else if (this.terms[i].exp < oth.terms[j].exp) {
-                result[k++] = oth.terms[j++];
+    private void validateExp(int exp) throws IllegalArgumentException {
+        if (exp < 0) {
+            throw new IllegalArgumentException("Exponent cannot be negative");
+        }
+    }
+
+    public void add(Polynomial othr) {
+        if (this.termsHead == null || othr.termsHead == null) {
+            throw new RuntimeException("Cannot add empty Polynomial");
+        }
+
+        TermNode ptr = this.termsHead;
+        TermNode prev = null;
+        TermNode othrPtr = othr.termsHead;
+
+        while (ptr != null && othrPtr != null) {
+            if (ptr.exp == othrPtr.exp) {
+                ptr.coef += othrPtr.coef;
+                prev = ptr;
+                ptr = ptr.next;
+                othrPtr = othrPtr.next;
+            } else if (ptr.exp > othrPtr.exp) {
+                prev = ptr;
+                ptr = ptr.next;
             } else {
-                result[k++] = this.terms[i++].add(oth.terms[j++]);
+                TermNode newNode = new TermNode(othrPtr.coef, othrPtr.exp);
+                newNode.next = ptr;
+                if (prev == null) {
+                    this.termsHead = newNode;
+                } else {
+                    prev.next = newNode;
+                }
+                prev = newNode;
+                othrPtr = othrPtr.next;
             }
         }
 
-        while (i < this.numberOfTerms) {
-            result[k++] = this.terms[i++];
+        while (othrPtr != null) {
+            TermNode newNode = new TermNode(othrPtr.coef, othrPtr.exp);
+            prev.next = newNode;
+            prev = newNode;
+            othrPtr = othrPtr.next;
         }
-
-        while (j < oth.numberOfTerms) {
-            result[k++] = oth.terms[j++];
-        }
-
-        return new Polynomial(k, Arrays.copyOf(result, k));
     }
 
     @Override
     public String toString() {
-        if (this.count != this.numberOfTerms) {
-            throw new IllegalArgumentException("Invalid number of terms, expected " + this.numberOfTerms + " but got " + this.count);
+        if (this.termsHead == null) {
+            throw new RuntimeException("Polynomial is empty");
         }
 
         StringBuilder sb = new StringBuilder();
+        TermNode ptr = this.termsHead;
 
-        for (int i = 0; i < this.numberOfTerms; i++) {
-            sb.append(terms[i]);
-
-            if (i != this.numberOfTerms - 1) {
+        while (ptr != null) {
+            sb.append(ptr);
+            if (ptr.next != null) {
                 sb.append(" + ");
             }
+            ptr = ptr.next;
         }
-
-        System.out.println(terms.length);
-        System.out.println(numberOfTerms);
 
         return sb.toString();
     }
+
+//    public Polynomial add(Polynomial oth) {
+//        TermNode[] result = new TermNode[this.numberOfTerms + oth.numberOfTerms];
+//
+//        int i = 0, j = 0, k = 0;
+//
+//        while (i < this.numberOfTerms && j < oth.numberOfTerms) {
+//            if (this.terms[i].exp > oth.terms[j].exp) {
+//                result[k++] = this.terms[i++];
+//            } else if (this.terms[i].exp < oth.terms[j].exp) {
+//                result[k++] = oth.terms[j++];
+//            } else {
+//                result[k++] = this.terms[i++].add(oth.terms[j++]);
+//            }
+//        }
+//
+//        while (i < this.numberOfTerms) {
+//            result[k++] = this.terms[i++];
+//        }
+//
+//        while (j < oth.numberOfTerms) {
+//            result[k++] = oth.terms[j++];
+//        }
+//
+//        return new Polynomial(k, Arrays.copyOf(result, k));
+//    }
 
 }
