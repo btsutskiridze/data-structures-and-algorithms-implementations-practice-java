@@ -44,22 +44,31 @@ public class ArrayStack {
         return this.items[this.count - 1];
     }
 
-    public void validateIntex(int index) {
+    private void validateIntex(int index) {
         if (index < 0 || index >= this.count) {
             throw new RuntimeException("Index is out of range!");
         }
     }
 
-    public void validateIsFull() {
-        if (this.count == this.size) {
+
+    private void validateIsFull() {
+        if (this.isFull()) {
             throw new RuntimeException("Stack is full!");
         }
     }
 
-    public void validateIsEmpty() {
-        if (this.count == 0) {
+    public boolean isFull() {
+        return this.count == this.size;
+    }
+
+    private void validateIsEmpty() {
+        if (isEmpty()) {
             throw new RuntimeException("Stack is empty!");
         }
+    }
+
+    public boolean isEmpty() {
+        return this.count == 0;
     }
 
     @Override
