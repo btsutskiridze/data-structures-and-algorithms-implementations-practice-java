@@ -1,18 +1,59 @@
 package stack;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class LinkedListStack<T> {
 
     public static void main(String[] args) {
-        LinkedListStack<Integer> stack = new LinkedListStack<Integer>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
+//        LinkedListStack<Integer> stack = new LinkedListStack<>();
+//        stack.push(1);
+//        stack.push(2);
+//        stack.push(3);
+//
+//        System.out.println(stack);
+//        System.out.println(stack.pop());
+//        System.out.println(stack.top());
+//        System.out.println(stack);
+//        System.out.println(stack.peek(0));
 
-        System.out.println(stack);
-        System.out.println(stack.pop());
-        System.out.println(stack.top());
-        System.out.println(stack);
-        System.out.println(stack.peek(0));
+
+        System.out.println(isBalancedParenthesis("()"));
+        System.out.println(isBalancedParenthesis("()[]{}"));
+        System.out.println(isBalancedParenthesis("(]"));
+        System.out.println(isBalancedParenthesis("([)]"));
+        System.out.println(isBalancedParenthesis("{[]}"));
+    }
+
+
+    public static boolean isBalancedParenthesis(String str) {
+        LinkedListStack<Character> stack = new LinkedListStack<>();
+
+        HashMap<Character, Character> pairs = new HashMap<>();
+        pairs.put(')', '(');
+        pairs.put('}', '{');
+        pairs.put(']', '[');
+
+
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+
+            if (c == '(' || c == '{' || c == '[') {
+                stack.push(c);
+            } else {
+                if (stack.isEmpty()) {
+                    return false;
+                }
+
+                char top = stack.pop();
+
+                if (pairs.get(c) != top) {
+                    return false;
+                }
+            }
+        }
+
+        return stack.isEmpty();
     }
 
     private Node<T> top;
