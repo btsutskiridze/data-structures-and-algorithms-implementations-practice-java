@@ -2,6 +2,10 @@ package linkedlist;
 
 import linkedlist.node.DbNode;
 
+import java.util.*;
+import java.util.LinkedList;
+import java.util.function.Consumer;
+
 class DbDriver {
     public static void main(String[] args) {
         DoubleLinkedList l1 = new DoubleLinkedList();
@@ -14,12 +18,19 @@ class DbDriver {
         l1.add(70);
         l1.add(80);
         l1.add(90);
-        System.out.println(l1);
-        System.out.println(l1.middle());
+
+        l1.forEach((i) -> System.out.println(i.data * 10));
+
+        Spliterator<DbNode<Integer>> spliteratorPt1 = l1.spliterator();
+
+
+        spliteratorPt1.forEachRemaining((item) -> {
+            item.setData(item.getData() * 10);
+        });
     }
 }
 
-public class DoubleLinkedList {
+public class DoubleLinkedList implements Iterable<DbNode<Integer>> {
     DbNode<Integer> head;
     int size;
 
@@ -191,5 +202,38 @@ public class DoubleLinkedList {
             ptr = ptr.next;
         }
         return sb.toString();
+    }
+
+    @Override
+    public Iterator<DbNode<Integer>> iterator() {
+        return new Iterator<>() {
+            private DbNode<Integer> current = head;
+
+            @Override
+            public boolean hasNext() {
+                return current != null;
+            }
+
+            @Override
+            public DbNode<Integer> next() {
+                if (!this.hasNext()) {
+                    throw new NoSuchElementException();
+                }
+
+                DbNode<Integer> temp = current;
+                current = current.next;
+                return temp;
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super DbNode<Integer>> action) {
+        Iterable.super.forEach(action);
+    }
+
+    @Override
+    public Spliterator<DbNode<Integer>> spliterator() {
+        return Spliterators.spliterator(this.iterator(), this.size, Spliterator.ORDERED);
     }
 }

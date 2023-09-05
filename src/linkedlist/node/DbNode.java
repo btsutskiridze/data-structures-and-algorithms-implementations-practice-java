@@ -18,6 +18,14 @@ public class DbNode<T> {
     }
 
 
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "[" + this.data + "]";
