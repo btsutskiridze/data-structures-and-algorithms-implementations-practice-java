@@ -1,7 +1,14 @@
 package stack;
 
+import arrayhelper.Pair;
+
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class LinkedListStack<T> {
 
@@ -18,13 +25,15 @@ public class LinkedListStack<T> {
 //        System.out.println(stack.peek(0));
 
 
-        System.out.println(isBalancedParenthesis("()"));
-        System.out.println(isBalancedParenthesis("()[]{}"));
-        System.out.println(isBalancedParenthesis("(]"));
-        System.out.println(isBalancedParenthesis("([)]"));
-        System.out.println(isBalancedParenthesis("{[]}"));
-    }
+//        System.out.println(isBalancedParenthesis("()"));
+//        System.out.println(isBalancedParenthesis("()[]{}"));
+//        System.out.println(isBalancedParenthesis("(]"));
+//        System.out.println(isBalancedParenthesis("([)]"));
+//        System.out.println(isBalancedParenthesis("{[]}"));
 
+        System.out.println(infixToPostfix("a+b*c-d/e"));
+
+    }
 
     public static boolean isBalancedParenthesis(String str) {
         LinkedListStack<Character> stack = new LinkedListStack<>();
@@ -55,6 +64,49 @@ public class LinkedListStack<T> {
 
         return stack.isEmpty();
     }
+
+    private static int precedence(char ch) {
+        if (ch == '+' || ch == '-') {
+            return 1;
+        }
+
+        if (ch == '*' || ch == '/') {
+            return 2;
+        }
+
+        return 0;
+
+    }
+
+    public static String infixToPostfix(String str) {
+        char[] chars = str.toCharArray();
+        StringBuilder postfixExpr = new StringBuilder();
+        LinkedListStack<Character> operators = new LinkedListStack<>();
+        int i = 0;
+
+        while (i < chars.length) {
+            char ch = chars[i];
+            if (Character.isLetterOrDigit(ch)) {
+                postfixExpr.append(ch);
+                i++;
+                continue;
+            }
+
+            if (operators.isEmpty() || precedence(ch) > precedence(operators.top())) {
+                operators.push(ch);
+                i++;
+            } else {
+                postfixExpr.append(operators.pop());
+            }
+        }
+
+        while (!operators.isEmpty()) {
+            postfixExpr.append(operators.pop());
+        }
+
+        return postfixExpr.toString();
+    }
+
 
     private Node<T> top;
     private int size;
