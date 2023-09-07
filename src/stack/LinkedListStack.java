@@ -1,37 +1,29 @@
 package stack;
 
-import arrayhelper.Pair;
-
-import java.text.CharacterIterator;
-import java.text.StringCharacterIterator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class LinkedListStack<T> {
 
     public static void main(String[] args) {
-//        LinkedListStack<Integer> stack = new LinkedListStack<>();
-//        stack.push(1);
-//        stack.push(2);
-//        stack.push(3);
-//
-//        System.out.println(stack);
-//        System.out.println(stack.pop());
-//        System.out.println(stack.top());
-//        System.out.println(stack);
-//        System.out.println(stack.peek(0));
+        LinkedListStack<Integer> stack = new LinkedListStack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        System.out.println(stack);
+        System.out.println(stack.pop());
+        System.out.println(stack.top());
+        System.out.println(stack);
+        System.out.println(stack.peek(0));
 
 
-//        System.out.println(isBalancedParenthesis("()"));
-//        System.out.println(isBalancedParenthesis("()[]{}"));
-//        System.out.println(isBalancedParenthesis("(]"));
-//        System.out.println(isBalancedParenthesis("([)]"));
-//        System.out.println(isBalancedParenthesis("{[]}"));
+        System.out.println(isBalancedParenthesis("()"));
+        System.out.println(isBalancedParenthesis("()[]{}"));
+        System.out.println(isBalancedParenthesis("(]"));
+        System.out.println(isBalancedParenthesis("([)]"));
+        System.out.println(isBalancedParenthesis("{[]}"));
 
-        System.out.println(infixToPostfix("a+b*c-d/e"));
+        System.out.println(infixToPostfix("((a+b)*c)-d^e^f"));
 
     }
 
@@ -65,18 +57,28 @@ public class LinkedListStack<T> {
         return stack.isEmpty();
     }
 
-    private static int precedence(char ch) {
-        if (ch == '+' || ch == '-') {
-            return 1;
-        }
-
-        if (ch == '*' || ch == '/') {
-            return 2;
-        }
-
-        return 0;
-
+    private static int outsidePrecedence(char ch) {
+        return switch (ch) {
+            case '+', '-' -> 1;
+            case '*', '/' -> 3;
+            case '^' -> 6;
+            case '(' -> 7;
+            case ')' -> 0;
+            default -> -1;
+        };
     }
+
+    private static int insidePrecedence(char ch) {
+        return switch (ch) {
+            case '+', '-' -> 2;
+            case '*', '/' -> 4;
+            case '^' -> 5;
+            case '(' -> 0;
+            case ')' -> 7;
+            default -> -1;
+        };
+    }
+
 
     public static String infixToPostfix(String str) {
         char[] chars = str.toCharArray();
@@ -92,12 +94,19 @@ public class LinkedListStack<T> {
                 continue;
             }
 
-            if (operators.isEmpty() || precedence(ch) > precedence(operators.top())) {
+            if (operators.isEmpty() || outsidePrecedence(ch) > insidePrecedence(operators.top())) {
                 operators.push(ch);
                 i++;
-            } else {
-                postfixExpr.append(operators.pop());
+                continue;
             }
+
+            if (outsidePrecedence(ch) == insidePrecedence(operators.top())) {
+                operators.pop();
+                i++;
+                continue;
+            }
+
+            postfixExpr.append(operators.pop());
         }
 
         while (!operators.isEmpty()) {
@@ -169,16 +178,16 @@ public class LinkedListStack<T> {
         return this.top == null;
     }
 
-    private class Node<T> {
-        T data;
-        Node<T> next;
+    private class Node<E> {
+        E data;
+        Node<E> next;
 
-        public Node(T data) {
+        public Node(E data) {
             this.data = data;
             this.next = null;
         }
 
-        public Node(T data, Node<T> next) {
+        public Node(E data, Node<E> next) {
             this.data = data;
             this.next = next;
         }
