@@ -5,25 +5,26 @@ import java.util.HashMap;
 public class LinkedListStack<T> {
 
     public static void main(String[] args) {
-        LinkedListStack<Integer> stack = new LinkedListStack<>();
-        stack.push(1);
-        stack.push(2);
-        stack.push(3);
-
-        System.out.println(stack);
-        System.out.println(stack.pop());
-        System.out.println(stack.top());
-        System.out.println(stack);
-        System.out.println(stack.peek(0));
-
-
-        System.out.println(isBalancedParenthesis("()"));
-        System.out.println(isBalancedParenthesis("()[]{}"));
-        System.out.println(isBalancedParenthesis("(]"));
-        System.out.println(isBalancedParenthesis("([)]"));
-        System.out.println(isBalancedParenthesis("{[]}"));
+//        LinkedListStack<Integer> stack = new LinkedListStack<>();
+//        stack.push(1);
+//        stack.push(2);
+//        stack.push(3);
+//
+//        System.out.println(stack);
+//        System.out.println(stack.pop());
+//        System.out.println(stack.top());
+//        System.out.println(stack);
+//        System.out.println(stack.peek(0));
+//
+//
+//        System.out.println(isBalancedParenthesis("()"));
+//        System.out.println(isBalancedParenthesis("()[]{}"));
+//        System.out.println(isBalancedParenthesis("(]"));
+//        System.out.println(isBalancedParenthesis("([)]"));
+//        System.out.println(isBalancedParenthesis("{[]}"));
 
         System.out.println(infixToPostfix("((a+b)*c)-d^e^f"));
+        System.out.println(evaluateDigitsExpr("((2+3)*5)-6^2"));
 
     }
 
@@ -114,6 +115,44 @@ public class LinkedListStack<T> {
         }
 
         return postfixExpr.toString();
+    }
+
+
+    public static String evaluateDigitsExpr(String infixExpr) {
+        String postfixExpr = infixToPostfix(infixExpr);
+        char[] chars = postfixExpr.toCharArray();
+        LinkedListStack<Double> operands = new LinkedListStack<>();
+        int i = 0;
+
+        while (i < chars.length) {
+            char ch = chars[i];
+
+            if (Character.isDigit(ch)) {
+                operands.push((double) (ch - '0'));
+                i++;
+                continue;
+            }
+
+            double operand2 = operands.pop();
+            double operand1 = operands.pop();
+
+            operands.push(calculateExpr(ch, operand1, operand2));
+
+            i++;
+        }
+
+        return String.valueOf(operands.pop());
+    }
+
+    private static double calculateExpr(char operator, double operand1, double operand2) {
+        return switch (operator) {
+            case '+' -> operand1 + operand2;
+            case '-' -> operand1 - operand2;
+            case '*' -> operand1 * operand2;
+            case '/' -> operand1 / operand2;
+            case '^' -> Math.pow(operand1, operand2);
+            default -> 0;
+        };
     }
 
 
