@@ -5,23 +5,23 @@ import java.util.HashMap;
 public class LinkedListStack<T> {
 
     public static void main(String[] args) {
-//        LinkedListStack<Integer> stack = new LinkedListStack<>();
-//        stack.push(1);
-//        stack.push(2);
-//        stack.push(3);
-//
-//        System.out.println(stack);
-//        System.out.println(stack.pop());
-//        System.out.println(stack.top());
-//        System.out.println(stack);
-//        System.out.println(stack.peek(0));
-//
-//
-//        System.out.println(isBalancedParenthesis("()"));
-//        System.out.println(isBalancedParenthesis("()[]{}"));
-//        System.out.println(isBalancedParenthesis("(]"));
-//        System.out.println(isBalancedParenthesis("([)]"));
-//        System.out.println(isBalancedParenthesis("{[]}"));
+        LinkedListStack<Integer> stack = new LinkedListStack<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        System.out.println(stack);
+        System.out.println(stack.pop());
+        System.out.println(stack.top());
+        System.out.println(stack);
+        System.out.println(stack.peek(0));
+
+
+        System.out.println(isBalancedParenthesis("()"));
+        System.out.println(isBalancedParenthesis("()[]{}"));
+        System.out.println(isBalancedParenthesis("(]"));
+        System.out.println(isBalancedParenthesis("([)]"));
+        System.out.println(isBalancedParenthesis("{[]}"));
 
         System.out.println(infixToPostfix("((a+b)*c)-d^e^f"));
         System.out.println(evaluateDigitsExpr("(6+5)+(3*4)"));
