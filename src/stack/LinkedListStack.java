@@ -24,7 +24,7 @@ public class LinkedListStack<T> {
 //        System.out.println(isBalancedParenthesis("{[]}"));
 
         System.out.println(infixToPostfix("((a+b)*c)-d^e^f"));
-        System.out.println(evaluateDigitsExpr("((2+3)*5)-6^2"));
+        System.out.println(evaluateDigitsExpr("(6+5)+(3*4)"));
 
     }
 
@@ -120,16 +120,11 @@ public class LinkedListStack<T> {
 
     public static String evaluateDigitsExpr(String infixExpr) {
         String postfixExpr = infixToPostfix(infixExpr);
-        char[] chars = postfixExpr.toCharArray();
         LinkedListStack<Double> operands = new LinkedListStack<>();
-        int i = 0;
 
-        while (i < chars.length) {
-            char ch = chars[i];
-
+        for (char ch : postfixExpr.toCharArray()) {
             if (Character.isDigit(ch)) {
                 operands.push((double) (ch - '0'));
-                i++;
                 continue;
             }
 
@@ -137,8 +132,6 @@ public class LinkedListStack<T> {
             double operand1 = operands.pop();
 
             operands.push(calculateExpr(ch, operand1, operand2));
-
-            i++;
         }
 
         return String.valueOf(operands.pop());
