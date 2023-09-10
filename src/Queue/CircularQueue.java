@@ -1,8 +1,5 @@
 package Queue;
 
-
-import java.lang.reflect.Array;
-
 class Driver2 {
     public static void main(String[] args) {
         CircularQueue<Integer> queue = new CircularQueue<Integer>(4);
